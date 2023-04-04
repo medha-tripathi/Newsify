@@ -1,11 +1,31 @@
 import React, { useState } from 'react'
 import "./Login.scss"
+import axios from 'axios';
+import { useNavigate,Link } from 'react-router-dom';
 
 export default function Login() {
+  const history=useNavigate();
   const [email,setEmail]=useState("");
   const [password,setPassword]=useState("");
-  const handleSubmit=()=>{
-    
+  const handleSubmit=async (e)=>{
+    e.preventDefault();
+    try{
+      await axios.post('http://localhost:3000/',{email,password}).then(res=>{
+      if(res.data==='matched')
+      {
+        history('/');
+      }
+      else if(res.data==='not exists'){
+        alert('REgister first')
+        history('/signup');
+      }
+      else if(res.data==='wrong password'){
+        alert('Wrong password!');
+      }
+      })
+    }catch(e){
+      console.log(e);
+    }
   }
   return (
     <div className='maindivlogin backdrop-brightness-125'>
