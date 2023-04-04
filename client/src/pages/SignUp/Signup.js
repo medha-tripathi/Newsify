@@ -14,7 +14,8 @@ export default function Signup() {
     try{
       await axios.post('http://localhost:3000/signup',{name,email,password,cpassword}).then(res=>{
         if(res.data==='email exists'){
-          alert('email already exists')
+          alert(`Email already exists,
+          Redirecting to Login Page`)
           history('/login');
         }
         else if(res.data==='registered'){
