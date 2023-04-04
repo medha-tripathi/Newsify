@@ -1,12 +1,34 @@
 import React, { useState } from 'react';
 import "./Signup.scss";
+import axios from 'axios';
+import { useNavigate,Link } from 'react-router-dom';
 
 export default function Signup() {
+  const history= useNavigate();
   const [name,setName]=useState("");
   const [email,setEmail]=useState("");
   const [password,setPassword]=useState("");
   const [cpassword,setCPassword]=useState("");
-  const handleSubmit=()=>{
+  const handleSubmit=async(e)=>{
+    e.preventDefault();
+    try{
+      await axios.post('http://localhost:3000/signup',{name,email,password,cpassword}).then(res=>{
+        if(res.data==='email exists'){
+          alert(`Email already exists,
+          Redirecting to Login Page`)
+          history('/login');
+        }
+        else if(res.data==='registered'){
+          history('/');
+        }
+        else if(res.data==='passwords are not matching')
+        {
+          alert('both passwords are not matching')
+        }
+      });
+    }catch(e){
+      console.log(e);
+    }
     
   }
   return (
