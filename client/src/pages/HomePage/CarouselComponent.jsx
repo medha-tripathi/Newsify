@@ -5,12 +5,24 @@ import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-
 import Card from "./Card";
-
-import React from "react";
+import React, {useState, useEffect} from "react";
 
 const CarouselComponent = () => {
+  const [posts, setPosts] = useState([]);
+    useEffect(() => {
+        fetch('https://amiteshpatel.pythonanywhere.com/topic_news/4')
+           .then((response) => response.json())
+           .then((data) => {
+              console.log(data);
+              setPosts(data);
+              posts=data
+              console.log(posts)
+           })
+           .catch((err) => {
+              console.log(err.message);
+           });
+     }, []);
   return (
     <div>
       <Swiper
@@ -63,12 +75,10 @@ const CarouselComponent = () => {
         }}
         spaceBetween={30}
       >
-        <SwiperSlide>
-          <Card />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Card />
-        </SwiperSlide>
+        {<SwiperSlide>
+          <Card data={posts}/>
+          {/* {posts.Headline} */}
+        </SwiperSlide>}
         <SwiperSlide>
           <Card />
         </SwiperSlide>

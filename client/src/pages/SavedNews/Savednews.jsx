@@ -5,7 +5,7 @@ import "../HomePage/Styles/navbar.css";
 import "../HomePage/Styles/carousel.css";
 import "../SavedNews/savednews.css"
 
-const SavedArticle = () => {
+const SavedNews = () => {
   return (
     <div className="saved-news">
       <Navbar />
@@ -19,4 +19,4 @@ const SavedArticle = () => {
   );
 };
 
-export default SavedArticle;
+export default SavedNews;

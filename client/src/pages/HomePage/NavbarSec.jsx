@@ -1,14 +1,13 @@
 import React from 'react'
 import CarouselComponent from "./CarouselComponent"
 
-
 const NavbarSec = () => {
   return (
     <div>
     <div className='container'>
-    <h1 className='text'>Latest News</h1>
-        <div className='row navv'>
-            <div className='col-lg-2  col-sm-4 col-4'>
+    <h1 className='text d-flex justify-center align-items-center'>Latest News</h1>
+        <div className='row navv justify-start'>
+            <div className='col-lg-2 col-sm-4 col-4'>
                 <button className='btn btn-light nav-sec-link'>Politics</button>
             </div>
             <div className='col-lg-2 col-sm-4 col-4'>

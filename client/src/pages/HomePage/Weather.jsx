@@ -9,12 +9,14 @@ import {
   MDBRow,
   MDBTypography,
 } from "mdb-react-ui-kit";
+import { Link } from "react-router-dom";
 
 const Weather = () => {
   return (
-    <>
-      <section className="vh-100" style={{ backgroundColor: "#f5f6f7" }}>
-        <MDBContainer className="h-100">
+    <div style={{ background:"none", height:"85vh"}} className="d-flex justify-center align-items-center flex-col">
+    <Link to="/"><i className="fa-sharp fa-regular fa-circle-xmark fa-beat fa-2xl" ></i></Link>
+      <section className="vh-100">
+        <MDBContainer className="h-90 m-4">
           <MDBRow className="justify-content-center align-items-center h-100">
             <MDBCol md="10" lg="8" xl="6">
               <MDBCard
@@ -47,7 +49,7 @@ const Weather = () => {
           </MDBRow>
         </MDBContainer>
       </section>
-    </>
+    </div>
   );
 };
 

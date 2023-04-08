@@ -8,7 +8,6 @@ import "./Styles/navbarSec.css"
 import "./Styles/carousel.css"
 import "./Styles/homemain.css"
 
-
 function Homemain() {
   return (
     <>

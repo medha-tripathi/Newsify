@@ -1,4 +1,6 @@
-
+.total{
+    border: 2px solid black;
+}
 .text{
     font-size: 2.5rem;
     padding: 1rem;
