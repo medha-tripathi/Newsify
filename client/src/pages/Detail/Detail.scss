@@ -144,6 +144,7 @@
                 border: 3px solid black;
                 border-radius: 10px;
                 width: 50%;
+                height: 50%;
                 font-size: large;
                 margin-top: 10px;
                 background-color: #af695c;
@@ -164,6 +165,12 @@
                 justify-content: center;
                 text-align: center;
             }   
+        }
+        .pienother{
+            display: flex;
+            // align-items: center;
+            // justify-content: center;
+
         }
     }
     

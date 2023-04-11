@@ -1,9 +1,10 @@
 import React from "react";
-import Navbar from "../HomePage/Navbar";
+import Navbar from "../../component/Navbar/Navbar";
 import CarouselComponent from "../HomePage/CarouselComponent"
-import "../HomePage/Styles/navbar.css";
+import "../../component/Navbar/navbar.css";
 import "../HomePage/Styles/carousel.css";
 import "../SavedNews/savednews.css"
+import Footer from "../../component/Footer/Footer";
 
 const SavedNews = () => {
   return (
@@ -15,6 +16,7 @@ const SavedNews = () => {
           <CarouselComponent />
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

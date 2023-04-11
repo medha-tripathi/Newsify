@@ -7,7 +7,7 @@ import Error from "./pages/Error/Error";
 import Team from "./pages/Team/Team";
 import Homemain from "./pages/HomePage/Homemain";
 import SavedNews from "./pages/SavedNews/Savednews";
-import Weather from "./pages/HomePage/Weather";
+import Search from "./pages/Search/Search";
 
 function App() {
   return (
@@ -20,19 +20,10 @@ function App() {
           <Route path="/team" element={<Team />} />
           <Route path="/detail" element={<Detail />} />
           <Route path="/savednews" element={<SavedNews/>}/>
-          {/* <Route path='/category' element={<Category />} /> */}
-          {/* <Route path='/*' element={<Error />} /> */}
+          <Route path="/search" element={<Search/>}/>
+          <Route path='*' element={<Error />} />
         </Routes>
       </Router>
-      {/* <Login/> */}
-      {/* <Background/> */}
-      {/* <Detail /> */}
-      {/* <Signup/> */}
-      {/* <Error/> */}
-      {/* <Team/> */}
-      {/* {<Homemain/>} */}
-      {/* {<SavedArticle/>} */}
-      {/* <Weather/> */}
     </>
   );
 }

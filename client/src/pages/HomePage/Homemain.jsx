@@ -1,12 +1,13 @@
 import React from "react";
-import Navbar from "./Navbar"
+import Navbar from "../../component/Navbar/Navbar"
 import NavbarSec from "./NavbarSec";
 import Weather from "./Weather"
 
-import "./Styles/navbar.css"
+import "../../component/Navbar/navbar.css"
 import "./Styles/navbarSec.css"
 import "./Styles/carousel.css"
 import "./Styles/homemain.css"
+import Footer from "../../component/Footer/Footer";
 
 function Homemain() {
   return (
@@ -16,6 +17,7 @@ function Homemain() {
         <NavbarSec />
         {/* <Weather/> */}
       </div>
+      <Footer/>
     </>
   );
 }

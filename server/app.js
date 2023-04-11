@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(router);
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 app.get('/', cors(), (req, res, next) => {
     

@@ -1,7 +1,9 @@
 import React from "react";
-import Navbar from "../HomePage/Navbar";
+import Navbar from "../../component/Navbar/Navbar";
 // import "../HomePage/Styles/navbar.css"
 import "./Team.scss";
+import Connect from "../../component/Connect/Connect";
+import Footer from "../../component/Footer/Footer";
 
 export default function Team() {
   return (
@@ -54,6 +56,10 @@ export default function Team() {
           </div>
         </div>
       </div>
+      <div className="feedback"><Connect/></div>
+      
+      <Footer/>
+      
     </>
   );
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import "./Error.scss"
+import Footer from '../../component/Footer/Footer'
 
 export default function Error() {
   return (
@@ -13,9 +14,9 @@ export default function Error() {
     <h3>We are Sorry, the page that you are looking is disappeared!!</h3> 
     <h4></h4>
     <a href="/"><button>Go back To Home Page</button></a>
-    
+    <span className='m-4'>Nothing is wrong with your PC..just sit back and relax...</span>
     </div>
-    
+    <Footer/>
     </div>
   )
 }

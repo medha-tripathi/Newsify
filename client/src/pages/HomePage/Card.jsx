@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Footer from "../../component/Footer/Footer";
 
 const Card = (props) => {
   const [data,Setdata]=useState(props)

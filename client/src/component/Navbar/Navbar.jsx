@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "./Styles/navbar.css";
+import "../Navbar/navbar.css";
 import { Link } from "react-router-dom";
-import Weather from "./Weather";
+import Weather from "../../pages/HomePage/Weather";
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
@@ -23,6 +23,7 @@ const Navbar = () => {
   const handleToggle = () => {
     setOpen(!open);
   };
+
 
   return (
     <div class="total">
@@ -68,17 +69,13 @@ const Navbar = () => {
               <button class="btn btn-outline-success search-btn" type="submit">
                 Search
               </button>
-              
             </form>
             <Button onClick={handleToggle}><i class="fa-solid fa-cloud-moon-rain fa-2xl" style={{color: "#af695c"}}></i></Button>
       <Backdrop
-        sx={{ color: 'white', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={open}
-        onClick={handleClose}
-      >
+        sx={{ color: 'white', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={open} onClick={handleClose}>
         <Weather/>
       </Backdrop>
-            
+      <Link to="http://127.0.0.1:5500/client/src/pages/HomePage/Stock.html"><button><i class="fa-brands fa-bitcoin fa-xl" style={{color: "#af695c"}}></i></button></Link>
           </div>
         </div>
       </nav>

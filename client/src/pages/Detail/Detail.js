@@ -1,9 +1,33 @@
 import React from 'react'
 import "./Detail.scss"
-import Navbar from "../HomePage/Navbar";
+import Navbar from "../../component/Navbar/Navbar";
 import { Link } from 'react-router-dom';
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend
+} from "chart.js";
+import { Pie } from "react-chartjs-2"
+import Footer from '../../component/Footer/Footer';
+
+ChartJS.register(
+  ArcElement, Tooltip, Legend
+)
 
 export default function Detail() {
+  const data = {
+    labels: ['Positive', 'Negative'],
+    datasets: [
+      {
+        data: [6, 9],
+        lebel:"Sentiments",
+        backgroundColor: ['green', 'red'],
+        borderWidth: 2,
+        borderColor: 'Black'
+      }
+    ]
+  };
   return (
     <>
       <Navbar />
@@ -22,16 +46,30 @@ export default function Detail() {
                 </p>
 
               </div>
-              <div className="otherinfo">
+              <div className="pienother"><div className="otherinfo">
                 <span>Date Published: 16 August</span> <br />
                 <span>Source: Times of India</span> <br />
               </div>
+                <div className="pie" style={{ width: "30%" }}> <Pie data={data} options={{
+                  responsive: true,
+                  plugins: {
+                    fontSize: 30,
+                    text: 'Sentiments',
+                    display: true
+                  },
+                  legend: {
+                    labels: {
+                      font: { size: 15 }
+                    }
+                  }
+                }}></Pie> </div></div>
 
             </div>
 
           </div>
         </div>
       </div>
+      <Footer/>
     </>
 
   )
