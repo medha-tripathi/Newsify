@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import "./Login.scss"
 import axios from 'axios';
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate,Link, Navigate } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 import Fade from '@mui/material/Fade';
 import MuiAlert from '@mui/material/Alert';
+import { Context } from '../..';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -16,36 +17,52 @@ export default function Login() {
     Transition: Fade,
   });
 
+  const [error,setError]=useState(false);
   const handleClose = () => {
     setState({
       ...state,
       open: false,
     });
   }
-  const history=useNavigate();
-  const [email,setEmail]=useState("");
-  const [password,setPassword]=useState("");
-  const [error,setError]=useState(false);
-
-  const handleSubmit=async (e)=>{
+  const { isAuthenticated, setIsAuthenticated, loading, setLoading } = useContext(Context);
+  const history = useNavigate();
+ 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
-      await axios.post('http://localhost:5000/',{email,password}).then(res=>{
-      if(res.data==='matched')
-      {
-        history('/');
-      }
-      else if(res.data==='not exists'){
-        setError(true);
-        // history('/signup');
-      }
-      else if(res.data==='wrong password'){
-        setError(true);
-      }
+    setLoading(true);
+    try {
+      await axios.post('http://localhost:4000/', { email, password },
+        {
+          withCredentials: true,
+        }
+      ).then(res => {
+        if (res.data.message === 'matched') {
+          console.log(res.data);
+          history('/');
+          setIsAuthenticated(true);
+          
+        }
+        else if (res.data === 'not exists') {
+          setIsAuthenticated(false);
+          alert('REgister first')
+          history('/signup');
+        }
+        else if (res.data === 'wrong password') {
+          setIsAuthenticated(false);
+          alert('Wrong password!');
+        }
+        setLoading(false);
       })
-    }catch(e){
+    } catch (e) {
+      setIsAuthenticated(false);
+      setLoading(false);
       console.log(e);
     }
+  }
+  if(isAuthenticated){
+    return <Navigate to={'/'}/>
   }
   return (
     <><div className='maindivlogin'>
@@ -58,7 +75,7 @@ export default function Login() {
         <div className="name"><i className="fa-solid fa-unlock-keyhole fa-2xl" style={{color: "#af695c"}}></i>
         <input className='w3-hover-shadow w3-border w3-border-black' type="password" placeholder='Your Password' onChange={(e)=>{setPassword(e.target.value)}}/></div>
                         
-            <button className='w3-button w3-btn w3-animate-zoom' onClick={handleSubmit}>Login</button>
+            <button className='w3-button w3-btn w3-animate-zoom' disabled={loading} onClick={handleSubmit}>Login</button>
             OR 
             <div className='loginicons '>
                 <button className='w3-button w3-btn w3-animate-zoom'><i className="fa-brands fa-google"></i></button>

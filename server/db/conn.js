@@ -1,9 +1,13 @@
-const mongoose=require('mongoose')
+import mongoose from "mongoose";
 
-mongoose.connect('mongodb://localhost:27017', {
-    dbName: "backend",
-}).then(() => {
-    console.log("DB connected");
-}).catch((e) => {
-    console.log(e);
-})
+export const connDB = () => {
+    mongoose.connect('mongodb://127.0.0.1:27017', {
+        dbName: "backend",
+    }).then(() => {
+        console.log("DB connected");
+    }).catch((e) => {
+        console.log(e);
+    })
+}
+
+export default  connDB
