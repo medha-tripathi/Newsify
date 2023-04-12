@@ -18,9 +18,15 @@ function App() {
       withCredentials:true,
     }).then(res=>{
       setUser(res.data.user);
-      setIsAuthenticated(true);
+      if(res.data.success===true){
+        setIsAuthenticated(true);
+      }
+      else{
+        setUser({})
+        setIsAuthenticated(false);
+      }
     }).catch((e)=>{
-      setUser({})
+      console.log(e);
       setIsAuthenticated(false);
     })
   })

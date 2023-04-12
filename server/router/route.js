@@ -51,7 +51,7 @@ router.get('/logout', (req, res) => {
 router.get('/users', async(req, res) => {
     const {token}=req.cookies;
     if(!token){
-        return res.status(404).json({
+        return res.json({
             success:false,
             message:"Login First",
         });
