@@ -1,8 +1,9 @@
-const express = require('express');
-const router= new express.Router();
-const User=require('../models/auth');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+import express from 'express';
+const router = new express.Router();
+import User from "../models/auth.js"
+import bcrypt from 'bcrypt'
+import { sendCookie } from "../utils/features.js"
+import jwt from "jsonwebtoken"
 
 
 router.post('/', async (req, res) => {
@@ -10,18 +11,14 @@ router.post('/', async (req, res) => {
 
     let user = await User.findOne({ email });
     if (!user) {
-        return res.json('not exists');
+        return res.status(404).json('not exists');
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
         return res.json('wrong password');
     }
-    const token = jwt.sign({ _id: user._id }, 'akdlfjladjf')
-    res.cookie('token', token, {
-        httpOnly: true, expires: new Date(Date.now() + 60 * 1000)
-    });
-    res.json('matched');
+    sendCookie(user, res, "matched", 200);
 })
 
 router.post('/signup', async (req, res) => {
@@ -29,20 +26,43 @@ router.post('/signup', async (req, res) => {
 
     let user = await User.findOne({ email });
     if (password !== cpassword) {
-        return res.json('passwords are not matching')
+        return res.status(404).json('passwords are not matching')
     }
     if (user) {
         return res.json('email exists');
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     user = await User.create({ name, email, password: hashedPassword });
-    const token = jwt.sign({ _id: user._id }, 'akdlfjladjf')
-    res.cookie('token', token, {
-        httpOnly: true, expires: new Date(Date.now() + 60 * 1000)
+    sendCookie(user, res, "registered", 201);
+})
+
+router.get('/logout', (req, res) => {
+    res.status(200).cookie("token", "",{
+        httpOnly: true,
+        expires: new Date(Date.now()),
+        sameSite: process.env.NODE_ENV === "Development" ? "lax" : "none",
+        secure: process.env.NODE_ENV === "Development" ? false : true,
+    }
+    ).json({
+        success: true,
+        user: req.user,
     });
-    res.json('registered');
+})
+router.get('/users', async(req, res) => {
+    const {token}=req.cookies;
+    if(!token){
+        return res.status(404).json({
+            success:false,
+            message:"Login First",
+        });
+    }
+    const decoded=jwt.verify(token,'akdlfjladjf');
+    const user = await User.findById(decoded._id);
+    res.status(200).json({
+        success:true,
+        user,
+    })
 })
 
 
-
-module.exports =router;
+export default router;

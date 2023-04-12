@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Login from "./pages/Login/Login";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Signup from "./pages/SignUp/Signup";
@@ -8,8 +8,22 @@ import Team from "./pages/Team/Team";
 import Homemain from "./pages/HomePage/Homemain";
 import SavedNews from "./pages/SavedNews/Savednews";
 import Search from "./pages/Search/Search";
+import { Context } from ".";
+import axios from "axios";
 
 function App() {
+  const {setUser,setIsAuthenticated}=useContext(Context);
+  useEffect(()=>{
+    axios.get("http://localhost:4000/users",{
+      withCredentials:true,
+    }).then(res=>{
+      setUser(res.data.user);
+      setIsAuthenticated(true);
+    }).catch((e)=>{
+      setUser({})
+      setIsAuthenticated(false);
+    })
+  })
   return (
     <>
       <Router>

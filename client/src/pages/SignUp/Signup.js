@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import "./Signup.scss";
 import axios from 'axios';
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate,Link, Navigate } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 import Fade from '@mui/material/Fade';
 import MuiAlert from '@mui/material/Alert';
+import { Context } from '../..';
 
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -30,27 +31,42 @@ export default function Signup() {
   const [cpassword,setCPassword]=useState("");
   const [error,setError]=useState(false);
 
+  const {isAuthenticated,setIsAuthenticated,loading,setLoading}=useContext(Context);
+  
   const handleSubmit=async(e)=>{
     e.preventDefault();
+    setLoading(true);
     try{
-      await axios.post('http://localhost:5000/signup',{name,email,password,cpassword}).then(res=>{
+      await axios.post('http://localhost:4000/signup',{name,email,password,cpassword},{
+        withCredentials:true,
+      }).then(res=>{
         if(res.data==='email exists'){
           alert(`Email already exists,
           Redirecting to Login Page`)
           history('/login');
+          setIsAuthenticated(false);
         }
-        else if(res.data==='registered'){
-          history('/login');
+        else if(res.data.message==='registered'){
+          console.log(isAuthenticated);
+          setIsAuthenticated(true);
+          history('/');
         }
         else if(res.data==='passwords are not matching')
         {
-          setError(true)
+          alert('both passwords are not matching')
+          setIsAuthenticated(false);
         }
+        setLoading(false);
       });
     }catch(e){
+      setIsAuthenticated(false);
+      setLoading(false);
       console.log(e);
     }
     
+  }
+  if(isAuthenticated){
+    return <Navigate to={'/'}/>
   }
   return (
     <><div className='maindivsignup'>
@@ -67,7 +83,7 @@ export default function Signup() {
                 
             <div className="name"><i className="fa-solid fa-key fa-2xl mr-3" style={{color: "#af695c"}}></i>
             <input className='w3-hover-shadow w3-border w3-border-black' type="password" placeholder='Confirm Password' onChange={(e)=>{setCPassword(e.target.value)}}/></div>
-            <button onClick={handleSubmit} className='w3-button w3-btn'>Register</button>
+            <button disabled={loading} onClick={handleSubmit} className='w3-button w3-btn'>Register</button>
             
         </div> <div className="newuser w3-animate-zoom">Already a user??
         <Link to="/login"><button className='signup w3-button w3-btn w3-xlarge'>Login</button></Link>
