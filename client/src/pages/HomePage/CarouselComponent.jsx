@@ -6,31 +6,47 @@ import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Card from "./Card";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Spinner from "./Spinner";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { Context } from "../..";
 
 const CarouselComponent = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  // const [savedId, setSavedId] = useState();
   const [saved, setSaved] = useState(false);
-  const handleClick = () => {
+  const history = useNavigate();
+  const { isAuthenticated } = useContext(Context);
+  const handleClick = (savedId) => {
+    
+    console.log(savedId)
     if (!saved) {
-      setSaved(true);
+      axios.post('http://localhost:4000/book', { savedId }, { withCredentials: true }).then((res) => {
+        if (res.data.message === 'Login First') {
+          history('/login');
+        }
+        else {
+          setSaved(true);
+        }
+      }).catch((e) => { console.log(e); })
     } else {
-      setSaved(false);
+      axios.post('http://localhost:4000/unbook', { savedId }, { withCredentials: true }).then((res) => {
+        setSaved(false);
+      }).catch((e) => {
+        console.log(e);
+      })
     }
   };
 
   const fetchdata = async () => {
     setLoading(true);
-    await fetch("https://amiteshpatel.pythonanywhere.com/topic_news/4")
+    await fetch("https://amiteshpatel.pythonanywhere.com/predict_api/Virat%20Kohli")
       .then((response) => {
         return response.json();
       })
       .then((res) => {
-        // console.log(typeof(data));
         const data = Object.values(res);
         var temp = [];
 
@@ -50,9 +66,7 @@ const CarouselComponent = () => {
   }, []);
 
   useEffect(() => {
-    // console.log(posts);
   }, [posts]);
-
   return (
     <div>
       {loading && <Spinner />}
@@ -114,14 +128,18 @@ const CarouselComponent = () => {
             {
               posts.map((i) => {
                 return (
-                  <SwiperSlide>
-                    {/* <Card
+                  <SwiperSlide >
+                    {
+                      /* <Card
                       article = {i.Article}
                       headline ={i.Headline}
                       sentiment ={i.sentiment}
                       summary = {i.Summary}
                       url={i.url}
-                      /> */}
+                      id= {i.id}
+                      /> */
+                    }
+
                     {/* // {i.Headline}
                       // {i.sentiment} */}
                     <div
@@ -141,17 +159,16 @@ const CarouselComponent = () => {
                             </h5>
                           </div>
                           <div>
-                            <button onClick={handleClick}>
+                            <button onClick={() => handleClick(i.id)}>
                               <i
-                                className={`fa-${
-                                  saved ? "solid" : "regular"
-                                } fa-bookmark fa-xl ml-2`}
+                                className={`fa-${saved ? "solid" : "regular"
+                                  } fa-bookmark fa-xl ml-2`}
                                 style={{ color: " #af695c" }}
                               ></i>
                             </button>
                           </div>
                         </div>
-                        <p class="card-text">{i.Summary.slice(0, 240)}...</p>
+                        <p class="card-text">{i.summary?.slice(0, 240)}...</p>
 
                         <Link to={`/detail?art=${i.id}`}>
                           <button type="button" class="btn btn-primary card-btn">

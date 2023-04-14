@@ -4,6 +4,7 @@ import User from "../models/auth.js"
 import bcrypt from 'bcrypt'
 import { sendCookie } from "../utils/features.js"
 import jwt from "jsonwebtoken"
+// import passport from 'passport';
 
 
 router.post('/', async (req, res) => {
@@ -32,7 +33,7 @@ router.post('/signup', async (req, res) => {
         return res.json('email exists');
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    user = await User.create({ name, email, password: hashedPassword });
+    user = await User.create({ name, email, password: hashedPassword ,id:[]});
     sendCookie(user, res, "registered", 201);
 })
 
@@ -64,5 +65,75 @@ router.get('/users', async(req, res) => {
     })
 })
 
+router.post('/book',async(req,res)=>{
+    try {
+        const {token}=req.cookies;
+        if(!token){
+            return res.json({
+                success:false,
+                message:"Login First",
+            });
+        }
+        const {savedId}=req.body;
+        console.log('Booked');
+        console.log(savedId)
+        const decoded= jwt.verify(token,'akdlfjladjf');
+        const user =await User.findById(decoded._id);
+        await user.updateOne({$push:{id:savedId}});
+        await user.save()
+        // await user.id.push(savedId);
+        // user.id.push(savedId);
+        console.log(user)
+        res.status(200).json({
+            success:true,
+            message:'bookmarked'
+        })
+    } catch (e) {
+        console.log(e);
+    }
+})
+
+router.post('/unbook',async(req,res)=>{
+    try {
+        const {token}=req.cookies;
+        const {savedId}=req.body;
+        const decoded=jwt.verify(token,'akdlfjladjf');
+        const user =await User.findById(decoded._id);
+        console.log('Unbooked');
+        console.log(savedId);
+        await user.updateOne({$pull:{id:savedId}});
+        console.log(user);
+        res.status(200).json({
+            success:true,
+            message:'unbooked'
+        })
+        
+    } catch (error) {
+        res.status(500).send({
+            success:false,
+            message:error.message
+        })
+        
+    }
+})
+
+// router.get('/login/success',(req,res)=>{
+//     if(req.user){
+//         sendCookie(req.user, res, "matched", 200);
+//     }
+// })
+
+// router.get('/login/failed',(req,res)=>{
+//     res.status(401).json({
+//         success:false,
+//         message:'failure'
+//     })
+// })
+
+// router.get('/google',passport.authenticate('google',{scope:["profile"]}));
+// router.get('/google/callback',passport.authenticate('google',{
+//     successRedirect:'/login/success',
+//     failureRedirect:'/login/failed'
+// }))
 
 export default router;
