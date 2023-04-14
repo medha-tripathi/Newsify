@@ -17,11 +17,11 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
     },
-    cpassword: { type: String }
+    id:[{
+        type:Number
+    }]
 })
 
 const User = mongoose.model('User', userSchema);
-
 export default User;
