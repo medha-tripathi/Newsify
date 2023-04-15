@@ -10,6 +10,7 @@ import SavedNews from "./pages/SavedNews/Savednews";
 import Search from "./pages/Search/Search";
 import { Context } from ".";
 import axios from "axios";
+import Region from "./pages/Region/Region";
 
 function App() {
   const {setUser,setIsAuthenticated}=useContext(Context);
@@ -40,7 +41,8 @@ function App() {
           <Route path="/team" element={<Team />} />
           <Route path="/detail" element={<Detail />} />
           <Route path="/savednews" element={<SavedNews/>}/>
-          <Route path="/search" element={<Search/>}/>
+          <Route path="/search/*" element={<Search/>}/>
+          <Route path="/regionnews/*" element={<Region/>}/>
           <Route path='*' element={<Error />} />
         </Routes>
       </Router>

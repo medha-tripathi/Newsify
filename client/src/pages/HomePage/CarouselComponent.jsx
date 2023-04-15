@@ -42,7 +42,7 @@ const CarouselComponent = () => {
 
   const fetchdata = async () => {
     setLoading(true);
-    await fetch("https://amiteshpatel.pythonanywhere.com/predict_api/Virat%20Kohli")
+    await fetch("https://amiteshpatel.pythonanywhere.com/predict_api/ipl")
       .then((response) => {
         return response.json();
       })
@@ -129,27 +129,15 @@ const CarouselComponent = () => {
               posts.map((i) => {
                 return (
                   <SwiperSlide >
-                    {
-                      /* <Card
-                      article = {i.Article}
-                      headline ={i.Headline}
-                      sentiment ={i.sentiment}
-                      summary = {i.Summary}
-                      url={i.url}
-                      id= {i.id}
-                      /> */
-                    }
-
-                    {/* // {i.Headline}
-                      // {i.sentiment} */}
                     <div
                       class="card carousel-card carousel-card"
                       style={{ width: "90%", height: "30rem" }}
                     >
                       <img
-                        src="https://assets.thehansindia.com/h-upload/2022/04/30/1289736-politics.webp"
+                        src={i.images}
                         class="card-img-top card-image"
                         alt="..."
+                        style={{ width: "100%", height: "20rem" }}
                       />
                       <div class="card-body">
                         <div className="d-flex justify-space-between align-items-left flex-row">
@@ -172,8 +160,8 @@ const CarouselComponent = () => {
 
                         <Link to={`/detail?art=${i.id}`}>
                           <button type="button" class="btn btn-primary card-btn">
-                            Read More{" "}
-                            <img src="circle-notch.png" className="notch" />{" "}
+                            Read More
+                            <img src="circle-notch.png" className="notch" />
                           </button>
                         </Link>
                       </div>
@@ -184,14 +172,6 @@ const CarouselComponent = () => {
             }
           </>
         }
-
-        {/* {<SwiperSlide>
-          <Card data={posts}/>
-          {/* {posts.Headline} */}
-        {/* </SwiperSlide>}
-        <SwiperSlide>
-          <Card />
-        </SwiperSlide> */}
       </Swiper>
     </div>
   );

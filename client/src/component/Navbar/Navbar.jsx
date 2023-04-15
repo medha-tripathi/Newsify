@@ -3,13 +3,25 @@ import "../Navbar/navbar.css";
 import { Link } from "react-router-dom";
 import Weather from "../../pages/HomePage/Weather";
 import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
 import Button from "@mui/material/Button";
 import { Context } from "../..";
 import axios from "axios";
 import useGeoLocation from "../../pages/Hooks/useGeoLocation";
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
 
 const Navbar = () => {
+
+  const [region, setRegion] = React.useState('');
+  
+  const handleChange = (event) => {
+    setRegion(event.target.value);
+  };
+
   const geolocation = useGeoLocation();
 
   const { isAuthenticated, setIsAuthenticated, loading, setLoading } =
@@ -29,13 +41,9 @@ const Navbar = () => {
   const [weatherda, setWeatherda] = useState([]);
   const [show, setShow] = useState(false);
   const [weather, showWeather] = useState(false);
-  // const onClick = () => {
-  //   if (weather === false)
-  //     showWeather(true)
-  //   else
-  //     showWeather(false)
-  // }
+  const [search, setSearch] = useState("");
 
+  console.log(search)
   const [open, setOpen] = React.useState(false);
   const handleClose = () => {
     setOpen(false);
@@ -58,11 +66,7 @@ const Navbar = () => {
 
     showWeather(true);
 
-    // console.log(data.current.temp_c);
   };
-  // useEffect(()=>{
-  //   console.log(weatherda)
-  // },[weatherda])
 
   return (
     <div class="total">
@@ -94,7 +98,7 @@ const Navbar = () => {
                 </Link>
               </li>
               <li class="nav-item">
-                <Link to="/savedarticle" className="nav-link link">
+                <Link to="/savednews" className="nav-link link">
                   Saved Articles
                 </Link>
               </li>
@@ -109,17 +113,34 @@ const Navbar = () => {
                   </Link>
                 )}
               </li>
-            </ul>
+            </ul><Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Region</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={region}
+          label="region"
+          onChange={handleChange}
+        >
+        <Link to="/regionnews/world"><MenuItem value={"World"}>World</MenuItem></Link>
+        <Link to="/regionnews/nation"><MenuItem value={"Nation"}>Nation</MenuItem></Link>
+        <Link to="/regionnews/local"><MenuItem value={"Local"}>Local</MenuItem></Link>
+        </Select>
+      </FormControl>
+    </Box>
             <form class="d-flex searchBar">
               <input
                 class="form-control me-2 search-input abc"
                 type="search"
                 placeholder="Search your news"
                 aria-label="Search"
+                onChange={(e)=>{setSearch(e.target.value)}}
               />
-              <button class="btn btn-outline-success search-btn" type="submit">
+              <Link to={`/search/${search}`}><button class="btn btn-outline-success search-btn" type="submit">
                 Search
-              </button>
+              </button></Link>
+              
               <Button onClick={handleToggle}>
                 <i
                   class="fa-solid fa-cloud-moon-rain fa-2xl"   // it's the weather button
@@ -127,10 +148,10 @@ const Navbar = () => {
                 ></i>
               </Button>
 
-              <Link to="https://richesh27.github.io/Stock/" target="_">
+              <Link to={{pathname:"http://127.0.0.1:5500/client/src/pages/HomePage/Stock.html"}} target="_blank">
                 <button>
                   <i
-                    class="fa-brands fa-bitcoin fa-xl"           //it's the stock market button
+                    className="fa-brands fa-bitcoin fa-2xl mt-2"           //it's the stock market button
                     style={{ color: "#af695c" }}
                   ></i>
                 </button>
