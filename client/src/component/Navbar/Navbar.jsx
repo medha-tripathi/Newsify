@@ -148,14 +148,13 @@ const Navbar = () => {
                 ></i>
               </Button>
 
-              <Link to={{pathname:"http://127.0.0.1:5500/client/src/pages/HomePage/Stock.html"}} target="_blank">
-                <button>
+              <a href="https://medha-tripathi.github.io/stock/" target="_blank">
+                
                   <i
                     className="fa-brands fa-bitcoin fa-2xl mt-2"           //it's the stock market button
                     style={{ color: "#af695c" }}
                   ></i>
-                </button>
-              </Link>
+              </a>
             </form>
             <Backdrop
               sx={{

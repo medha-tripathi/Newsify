@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Connect() {
   return (
-    <div className='w3-disay-middle'><form
+    <div className='w3-disay-middle flex justify-center'><form
     action="/action_page.php"
     className="w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin w3-center w3-cursive" style={{width:"80%"}}
   >

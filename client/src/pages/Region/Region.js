@@ -10,19 +10,20 @@ export default function Region() {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false);
     const url=window.location.href.toString().split("regionnews/")[1].toUpperCase();
+    var urlf=""
     console.log(url)
     if(url=="WORLD"){
-        url="https://amiteshpatel.pythonanywhere.com/predict_api/0"
+        urlf="https://amiteshpatel.pythonanywhere.com/predict_api/0"
     }
     else if(url=="LOCAL"){
-        url="https://amiteshpatel.pythonanywhere.com/local"
+        urlf="https://amiteshpatel.pythonanywhere.com/local"
     }
     else{
-        url="https://amiteshpatel.pythonanywhere.com/predict_api/1"
+        urlf="https://amiteshpatel.pythonanywhere.com/predict_api/1"
     }
     const fetchdata = async () => {
         setLoading(false);
-        await fetch(url)
+        await fetch(urlf)
           .then((response) => {
             return response.json();
           })
